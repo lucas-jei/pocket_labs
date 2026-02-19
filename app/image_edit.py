@@ -150,3 +150,4 @@ elif running_type == 2:
                          project_dir / "thumb.png")
 
         print("패키지 생성 완료")
+
