@@ -25,12 +25,11 @@ jobs:
         # 만약 별도의 라이브러리가 필요하다면 아래 주석을 해제하고 추가하세요
         # pip install -r requirements.txt
 
-    - name: PyInstaller로 앱을 빌드합니다
+    - name: PyInstaller로 범용(Universal2) 앱을 빌드합니다
       run: |
-        # --onefile: 단일 파일로 생성
-        # --windowed: 실행 시 터미널 창이 뜨지 않음 (GUI용)
-        # --name: 실행 파일 이름 설정
-        pyinstaller --onefile --windowed --name "ImageEditor" ./app/image_edit.py
+        # --target-arch universal2 옵션을 추가하여 Intel/M1 모두 지원
+        pyinstaller --onefile --windowed --name "ImageEditor" --target-arch universal2 ./app/image_edit.py
+        
 
     - name: 빌드된 파일을 업로드합니다
       uses: actions/upload-artifact@v4
