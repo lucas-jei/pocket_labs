@@ -57,3 +57,4 @@ jobs:
         with:
           name: app-linux
           path: dist/*
+
