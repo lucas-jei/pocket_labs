@@ -1,1 +1,2 @@
 pillow>=10.0,<11
+pyinstaller>=6.0
