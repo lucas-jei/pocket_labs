@@ -1,4 +1,4 @@
-name: Build Mac Executable (universal2)
+name: Build Mac Executables (x86_64 + arm64)
 
 on:
   push:
@@ -7,7 +7,20 @@ on:
 
 jobs:
   build-mac:
-    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Intel runner
+          - runner: macos-13
+            arch: x86_64
+            artifact: mac-intel-x86_64
+          # Apple Silicon runner
+          - runner: macos-14
+            arch: arm64
+            artifact: mac-apple-arm64
+
+    runs-on: ${{ matrix.runner }}
 
     steps:
       - name: Checkout
@@ -26,15 +39,15 @@ jobs:
         shell: bash
 
       # ✅ 엔트리 파일 경로만 본인 프로젝트에 맞게 수정하세요.
-      - name: Build (PyInstaller universal2)
+      - name: Build (PyInstaller)
         run: |
           pyinstaller --clean --noconfirm --onefile \
-            --target-architecture universal2 \
+            --target-architecture ${{ matrix.arch }} \
             app/image_edit.py
         shell: bash
 
-      - name: Upload artifact (macOS)
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mac-universal2-build
+          name: ${{ matrix.artifact }}
           path: dist/*
