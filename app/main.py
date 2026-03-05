@@ -6,6 +6,10 @@ def create_app() -> FastAPI:
     app = FastAPI(title=settings.APP_NAME)
     app.include_router(api_router, prefix="/api/v1")
 
+    @app.get("/")
+    def read_root():
+        return {"Hello": "World"}
+
     @app.get("/health")
     async def health():
         return {"status": "ok"}
